@@ -1,0 +1,80 @@
+{% extends 'adminpages/base.html' %}
+{% load static %}
+{% block pagecontent %}
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
+            </div>
+            {% if 'insertCategory' in permission.values %}
+            <a class="btn btn-primary" href="{% url 'categoryaddadmin' %}">Create</a>
+            {% endif %}
+            
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>                        
+                      <th>Description</th> 
+                      <th>Action</th>    
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>                        
+                      <th>Description</th> 
+                      <th>Action</th>           
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                  {% for item in category %}
+                  <tr>
+                      <td>{{item.categoryID}}</td>
+                      <td>{{item.categoryName}}</td>                   
+                      <td><textarea rows="4" cols="50" disabled>
+                        {{item.categoryDescription}}
+                        </textarea></td>
+                      <td>
+                        {% if 'updateCategory' in permission.values %}
+                        <button class="btn btn-primary" onclick="window.location.href='{% url 'categoryeditadmin' item.categoryID %}'">Sửa</button>
+                        {% endif %}
+                        {% if 'deleteCategory' in permission.values %}
+                        <button class="btn btn-danger"  onclick="deleteCategory({{item.categoryID}})">Xóa</button>
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endfor %}
+               
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <script>
+            
+            function deleteCategory(id){
+              $.ajax({
+                type: 'POST',
+                url: "{% url 'categorydeleteadmin' %}",
+                data: {'id':id, 'csrfmiddlewaretoken':'{{csrf_token}}'},
+              success: function(data, textStatus, xhr) {
+                console.log("hello"+xhr.status);
+                if(xhr.status == 200){
+                  alert("you have delete this category");
+                }
+              },
+              error: function(xhr, textStatus) {
+                console.log("bye"+xhr.status);
+                if(xhr.status == 400){
+                  alert("something was wrong");
+                }
+              } 
+              });
+            }
+
+          </script> 
+ {% endblock %}

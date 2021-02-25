@@ -1,0 +1,266 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>{% block title %}
+
+{% endblock  %}</title>
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
+<!-- Custom Theme files -->
+<!--theme style-->
+<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all" />
+<script src="{% static 'js/jquery.min.js' %}"></script>
+
+<!--//theme style-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Wedding Store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- start menu -->
+<script src="{% static 'js/simpleCart.min.js' %}"> </script>
+<!-- start menu -->
+<link href="{% static 'css/memenu.css' %}" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="{% static 'js/memenu.js' %}"></script>
+<script>$(document).ready(function(){$(".memenu").memenu();});</script>
+<!-- /start menu -->
+<link href="{% static 'css/form.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="{% static 'css/flexslider.css' %}" type="text/css" media="screen" />
+</head>
+<body>
+ <div class="header-top">
+	 <div class="header-bottom">			
+				<div class="logo">
+					<h1><a href="{% url 'index' %}">Music Instrument Shop</a></h1>					
+				</div>
+			 <!---->		 
+			 <div class="top-nav">
+				<ul class="memenu skyblue"><li class="active"><a href="{% url 'index' %}">Home</a></li>
+					<li class="grid"><a href="{% url 'product' 1 %}">Products</a>
+						<div class="mepanel">
+							<div class="row">
+								<div class="col1 me-one">
+									<h4>Shop</h4>
+									<ul>
+										{% for x in Categories %}
+											<li><a href="{% url 'productCategory' 1 x.categoryID %}">{{x.categoryName}}</a></li>
+										{% endfor %}
+										
+									</ul>
+								</div>
+								
+							</div>
+						</div>
+					</li>
+					<li class="grid"><a href="{% url 'login'%}">Login</a>
+					<div class="mepanel">
+							<div class="row">
+								<div class="col1 me-one">
+									<button class="btn-danger"><a href="{% url 'logout' %}">Logout</a></button>
+								</div>
+								<div class="col1 me-one">
+									<h1>Hello {% if 'user_name' in request.session %}
+									{{request.session.user_name}}
+									{% else %}
+									Guest
+									{% endif %}</h1>
+								</div>
+							</div>
+						</div>
+					</li>
+					
+					{% if 'user_id' in request.session %}
+					<li class="grid"><a href="{% url 'myAccount' %}">My Account</a></li>					
+					{% endif %}
+					
+				</ul>				
+			 </div>
+			 <!---->
+			 <div class="cart box_1">
+			 {% if 'user_id' in request.session %}
+			 	<a href="{% url 'checkout' %}">
+					<div class="total">
+					<span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span>)</div>
+					<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+				</a>
+			 {% else %}
+			 	<a href="{% url 'login' %}">
+					<div class="total">
+					<span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span>)</div>
+					<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+				</a>
+			 {% endif %}
+				 
+				
+				<p><a onclick="emptyCart()" href="javascript:;" class="simpleCart_empty" id="simpleCart_empty" >Empty Cart</a></p>
+			 	<div class="clearfix"> </div>
+				 
+			 </div>
+			 <div class="clearfix"></div>
+			 
+			 <!---->			 
+			 </div>
+			<div class="clearfix">  </div>
+</div>
+
+{% block placeholder %}
+
+    {% endblock %}
+
+<div class="footer">
+	 <div class="container">
+		 <div class="footer-grids">
+			 <div class="col-md-3 about-us">
+				 <h3>About Us</h3>
+				 <p>Maecenas nec auctor sem. Vivamus porttitor tincidunt elementum nisi a, euismod rhoncus urna. Curabitur scelerisque vulputate arcu eu pulvinar. Fusce vel neque diam</p>
+			 </div>
+			 <div class="col-md-3 ftr-grid">
+					<h3>Information</h3>
+					<ul class="nav-bottom">
+						<li><a href="#">Track Order</a></li>
+						<li><a href="#">New Products</a></li>
+						<li><a href="#">Location</a></li>
+						<li><a href="#">Our Stores</a></li>
+						<li><a href="#">Best Sellers</a></li>	
+					</ul>					
+			 </div>
+			 <div class="col-md-3 ftr-grid">
+					<h3>More Info</h3>
+					<ul class="nav-bottom">
+						<li><a href="login.html">Login</a></li>
+						<li><a href="#">FAQ</a></li>
+						<li><a href="contact.html">Contact</a></li>
+						<li><a href="#">Shipping</a></li>
+						<li><a href="#">Membership</a></li>	
+					</ul>					
+			 </div>
+			 <div class="col-md-3 ftr-grid">
+					<h3>Categories</h3>
+					<ul class="nav-bottom">
+						<li><a href="#">Car Lights</a></li>
+						<li><a href="#">LED Lights</a></li>
+						<li><a href="#">Decorates</a></li>
+						<li><a href="#">Wall Lights</a></li>
+						<li><a href="#">Protectors</a></li>	
+					</ul>					
+			 </div>
+			 <div class="clearfix"></div>
+		 </div>
+	 </div>
+</div>
+    <script src="{% static 'js/responsiveslides.min.js' %}"></script>
+<script>  
+    $(function () {
+      $("#slider").responsiveSlides({
+      	auto: true,
+      	nav: true,
+      	speed: 500,
+        namespace: "callbacks",
+        pager: false,
+      });
+    });
+  </script>
+  <script src="{% static 'js/bootstrap.js' %}"> </script>
+
+  <script>
+	function checkoutButton(){
+		window.location=document.getElementById('simpleCart_empty').href;
+	}
+
+	function addCartCustomer(id){
+		num = $("#numberOfProduct_"+id).val();
+		if(!num){
+			num=1;
+		}
+
+		$.ajax({
+            type: 'POST',
+            url: "{% url 'addCart' %}",
+            data: {'id':id, 'num':num, 'csrfmiddlewaretoken':'{{csrf_token}}'},
+            success: function(data, textStatus, xhr) {
+        		console.log("hello"+xhr.status);
+				if(xhr.status == 200){
+					alert("You have added this");
+				}
+			},
+			error: function(xhr, textStatus) {
+				console.log("bye"+xhr.status);
+				if(xhr.status == 400){
+					alert("Can't add this because it's not exist");
+				}
+			} 
+			});
+
+		}
+
+  </script>
+  <script>
+	function searchProduct(){
+		stringSearch = $("#searchTextInput").val();
+		$.post("{% url 'search' 1 %}",{'pages':1, 'parametes':stringSearch, 'csrfmiddlewaretoken':'{{csrf_token}}'},function(data){
+			window.location.href = "{% url 'search' 1 %}";
+		});
+		
+		
+	}
+  </script>
+  <script>
+	function filterByPrice(){
+		min = $( "#slider-range" ).slider( "values", 0 );
+		max = $( "#slider-range" ).slider( "values", 1 );
+
+		$.ajax({
+            type: 'POST',
+            url: "{% url 'filter' %}",
+            data: {'min':min,'max':max,'csrfmiddlewaretoken':'{{csrf_token}}'},
+            success: function(data, textStatus, xhr) {
+        		console.log("hello"+xhr.status);
+				if(xhr.status == 200){
+					alert("find out");
+
+					console.log(data.instance);
+				}
+			},
+			error: function(xhr, textStatus) {
+				console.log("bye"+xhr.status);
+				if(xhr.status == 400){
+					alert("something wrong");
+				}
+			} 
+			});
+		
+	}
+  </script>
+  <script>
+	function emptyCart(){
+
+		$.ajax({
+            type: 'POST',
+            url: "{% url 'delcart' %}",
+            data: {'csrfmiddlewaretoken':'{{csrf_token}}'},
+            success: function(data, textStatus, xhr) {
+        		console.log("hello"+xhr.status);
+				if(xhr.status == 200){
+					alert("Cart is clear");
+					window.location.href="{% url 'checkout' %}"
+				}
+			},
+			error: function(xhr, textStatus) {
+				console.log("bye"+xhr.status);
+				if(xhr.status == 400){
+					alert("something wrong");
+				}
+			} 
+			});
+
+		}
+	
+  </script>
+  <script>
+	function logout(){
+		sessionStorage.removeItem('user_id');
+	}
+  </script>
+</body>
+</html>

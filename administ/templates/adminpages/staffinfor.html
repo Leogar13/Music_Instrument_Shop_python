@@ -1,0 +1,34 @@
+{% extends 'adminpages/base.html' %}
+{% load static %}
+{% block pagecontent %}
+<div style="margin-top:20px; margin-left:50px; margin-right:50px;">
+<table class="table table-dark table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Prameter</th>
+      <th scope="col">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">User Name</th>
+      <td>{{myaccount.staffName}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Email</th>
+      <td>{{myaccount.staffEmail}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Phone</th>
+      <td>{{myaccount.staffPhone}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Created At</th>
+      <td>{{myaccount.createdAt}}</td>
+    </tr>
+    
+  </tbody>
+</table>
+</div>
+          
+ {% endblock %}

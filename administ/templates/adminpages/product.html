@@ -1,0 +1,87 @@
+{% extends 'adminpages/base.html' %}
+{% load static %}
+{% block pagecontent %}
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
+            </div>
+            {% if 'insertProduct' in permission.values %}
+            <a class="btn btn-primary" href="{% url 'productaddadmin' %}">Create</a>
+            {% endif %}
+            
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Price</th>  
+                      <th>Category</th>
+                      <th>Manufactory</th>
+                      <th>Supplier</th>
+                      <th>Action</th>  
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>  
+                      <th>Price</th>  
+                      <th>Category</th>
+                      <th>Manufactory</th>
+                      <th>Supplier</th> 
+                      <th>Action</th>           
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                  {% for item in product %}
+                  <tr>
+                      <td>{{item.productID}}</td>
+                      <td>{{item.productName}}</td>
+                      <td>{{item.retailPrice}}</td>
+                      <td>{{item.categoryName}}</td>
+                      <td>{{item.manufactoryName}}</td>
+                      <td>{{item.supplierName}}</td>
+                      <td>
+                        {% if 'updateProduct' in permission.values %}
+                        <button class="btn btn-primary" onclick="window.location.href='{% url 'producteditadmin' item.productID %}'">Sửa</button>
+                        {% endif %}
+                        {% if 'deleteProduct' in permission.values %}
+                        <button class="btn btn-danger"  onclick="deleteProduct({{item.productID}})">Xóa</button>
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endfor %}
+               
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <script>
+            
+            function deleteProduct(id){
+              $.ajax({
+                type: 'POST',
+                url: "{% url 'productdeleteadmin' %}",
+                data: {'id':id, 'csrfmiddlewaretoken':'{{csrf_token}}'},
+              success: function(data, textStatus, xhr) {
+                console.log("hello"+xhr.status);
+                if(xhr.status == 200){
+                  alert("you have delete this product");
+                }
+              },
+              error: function(xhr, textStatus) {
+                console.log("bye"+xhr.status);
+                if(xhr.status == 400){
+                  alert("something was wrong");
+                }
+              } 
+              });
+            }
+
+          </script> 
+ {% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %}
+My Account
+{% endblock title %}
+
+{% block placeholder %}
+<div style="margin-top:20px; margin-left:50px; margin-right:50px;">
+<table class="table table-dark table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Prameter</th>
+      <th scope="col">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">User Name</th>
+      <td>{{myaccount.customerName}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Email</th>
+      <td>{{myaccount.customerEmail}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Phone</th>
+      <td>{{myaccount.customerPhone}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Created At</th>
+      <td>{{myaccount.createdAt}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Address</th>
+      <td>{{myaccount.customerAddress}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div style="margin-top:50px; margin-left:50px; margin-right:50px;">
+    <table class="table table-dark table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">BillID</th>
+        <th scope="col">Status</th>
+      <th scope="col">updated</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in myBills %}
+    <tr>
+      <th scope="row">{{item.orderID}}</th>
+      <td>{{item.statusName}}</td>
+      <td>{{item.upTime}}</td>
+    </tr>
+  {% endfor %}
+    
+    {% comment %} <tr>
+      <th scope="row">Email</th>
+      <td>{{myaccount.customerEmail}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Phone</th>
+      <td>{{myaccount.customerPhone}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Created At</th>
+      <td>{{myaccount.createdAt}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Address</th>
+      <td>{{myaccount.customerAddress}}</td>
+    </tr> {% endcomment %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

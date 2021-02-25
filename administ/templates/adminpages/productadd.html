@@ -1,0 +1,55 @@
+ {% extends 'adminpages/base.html' %}
+{% load static %}
+{% block pagecontent %}
+<div class="text-center">
+  <h1 class="h4 text-gray-900 mb-4">Create an Product</h1>
+</div>
+  <form class="user" method="POST">
+  {% csrf_token %}
+                <div class="form-group row">
+                  <div class="col-sm-12 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" name="productname" placeholder="Product Name">
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 row">
+                <div class="col-sm-4 mb-sm-0">
+                    <select class="form-control" name="category">
+                      <option selected="">Category</option>
+                      {% for item in category %}
+                      <option value="{{item.categoryID}}">{{item.categoryName}}</option>
+                      {% endfor %}
+                      
+                    </select>  
+                  </div>
+                <div class="col-sm-4 mb-sm-0">
+                    <select class="form-control" name="manufactory">
+                      <option selected="">Manufactory</option>
+                      {% for item in manufactory %}
+                      <option value="{{item.manufactoryID}}">{{item.manufactoryName}}</option>
+                      {% endfor %}
+                    </select>  
+                  </div>
+                  <div class="col-sm-4 mb-sm-0">
+                    <select class="form-control" name="supplier">
+                      <option selected="">Supplier</option>
+                      {% for item in supplier %}
+                      <option value="{{item.supplierID}}">{{item.supplierName}}</option>
+                      {% endfor %}
+                    </select>  
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user" name="price" placeholder="Retail Price">
+                </div>
+                <div class="form-group">
+                  <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Description</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-user btn-block">
+                  Create
+                </button>
+              </form>
+ {% endblock %}
+ 

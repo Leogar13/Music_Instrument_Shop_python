@@ -1,0 +1,112 @@
+{% extends 'adminpages/base.html' %}
+{% load static %}
+{% block pagecontent %}
+    <h1>Order Detail</h1>
+    <h3>Trạng thái đơn hàng : {{orderstatus.statusName}}</h3>
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        
+      </div>
+      <div class="modal-body">
+        <label for="status_update">Change status</label>
+        
+        <select id="status_update">
+            {% for item in status %}
+                {% if item.statusID == orderstatus.statusID %}
+                    <option value="{{item.statusID}}" selected>{{item.statusName}}</option>
+                {% else %}
+                    <option value="{{item.statusID}}">{{item.statusName}}</option>
+                {% endif %}
+                
+            {% endfor %}
+            
+        </select>
+        <button class="btn btn-primary" onclick="updateStatus()">Update</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+</div>
+    <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
+            </div>
+
+            
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                      <th>Product ID</th>
+                      <th>Product Name</th>
+                      <th>Count</th>
+                      <th>Cost</th>       
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Product ID</th>
+                      <th>Product Name</th>
+                      <th>Count</th>
+                      <th>Cost</th>                              
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                  {% for item in orderdetail %}
+                  <tr>
+                      <td>{{item.productID}}</td>
+                      <td>{{item.productName}}</td>                   
+                      <td>{{item.counts}}</td>                   
+                      <td>{{item.costs}}</td>
+                      
+                    </tr>
+                  {% endfor %}
+                  
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+
+          <script>
+            function updateStatus(){
+                var conceptName = $('#status_update').find(":selected").val();
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'updatestatusorderadmin' %}",
+                    data: {'status':conceptName, 'orderid': {{orderstatus.orderID}},'csrfmiddlewaretoken':'{{csrf_token}}'},
+                    success: function(data, textStatus, xhr) {
+                        console.log("hello"+xhr.status);
+                        if(xhr.status == 200){
+                            alert("Update success");
+                            window.location.href="{% url 'orderadmin' %}"
+                        }
+                    },
+                    error: function(xhr, textStatus) {
+                        console.log("bye"+xhr.status);
+                        if(xhr.status == 400){
+                            alert("something wrong");
+                        }
+                    } 
+                    });
+
+            }
+          </script>
+
+ {% endblock %}

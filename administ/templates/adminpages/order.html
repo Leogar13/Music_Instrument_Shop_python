@@ -1,0 +1,59 @@
+{% extends 'adminpages/base.html' %}
+{% load static %}
+{% block pagecontent %}
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">DataTables</h6>
+            </div>
+            
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Customer Name</th>                        
+                      <th>Address</th> 
+                      <th>Pay by</th>
+                      <th>Created At</th>  
+                      <th>Total</th> 
+                      <th>Action</th>    
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>ID</th>
+                      <th>Customer Name</th>                        
+                      <th>Address</th> 
+                      <th>Pay by</th>
+                      <th>Created At</th>  
+                      <th>Total</th> 
+                      <th>Action</th>           
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                  {% for item in order %}
+                  <tr>
+                      <td>{{item.orderID}}</td>
+                      <td>{{item.customerName}}</td>                   
+                      <td>{{item.addressShipping}}</td>                   
+                      <td>{{item.payBy}}</td>
+                      <td>{{item.createdAt}}</td>     
+                      <td>{{item.totalBill}}</td>                
+                      <td>
+                        <button class="btn btn-primary" onclick="window.location.href='{% url 'orderdetailadmin' item.orderID %}'">Detail</button>
+                        
+                      </td>
+                    </tr>
+                  {% endfor %}
+               
+               
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+ {% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %}
+Home
+{% endblock title %}
+
+{% block placeholder %}
+<div class="container">
+	<div class="check-sec">	 
+	<form action="{% url 'postCart' %}" method="POST">
+		{% csrf_token %}
+		<div class="col-md-3 cart-total">
+			<a class="continue" href="{% url 'product' 1 %}">Continue to basket</a>
+			<div class="price-details">
+				<h3>Customer detail</h3>
+				<p>Name: {{user.customerName}}</p>
+				<p>Phone: {{user.customerPhone}}</p>
+				<p>Email: {{user.customerEmail}}</p>
+			</div>	
+			<div class="clearfix"></div>
+			<div class="clearfix"></div>
+			<label>Address</label>
+			<input type="text" name="addressShipping" value="{% if user.customerAddress != None %} {{user.customerAddress}} {% endif %}" required>
+			<div class="clearfix"></div>
+			<label>Pay by</label>
+			<select class="form-control" name="payby">
+                <option value="cash" selected>Cash</option>
+				<option value="card">Card</option>
+                      
+            </select>  
+			<div class="clearfix"></div>
+			<label>Description</label>
+			<textarea row="3" cols="30" name="description"></textarea>
+			
+			<button type="submit" onclick="checkoutButton()">Submit</button>
+		</div>
+		<div class="col-md-9 cart-items">
+			<h1>My Shopping Bag </h1>
+			{% for key,value in request.session.cart.items %}
+					<script>$(document).ready(function(c) {
+					$('.testclose{{ forloop.counter0 }}').on('click', function(c){
+						$('.testheader{{ forloop.counter0 }}').fadeOut('slow', function(c){
+							$('.testheader{{ forloop.counter0 }}').remove();
+						});
+						});	
+					  
+					});
+			   </script>
+			<div class="cart-header testheader{{ forloop.counter0 }}">
+				<div class="close1 testclose{{ forloop.counter0 }}" onclick="delitem({{value.id}})"> </div>
+					<div class="cart-sec simpleCart_shelfItem">
+						<div class="cart-item cyc">
+							<img src="images/p4.jpg" class="img-responsive" alt=""/>
+						</div>
+					   <div class="cart-item-info">
+					   		<input type="hidden" name="product_{{value.id}}">
+						    <h3><a href="{% url 'detail' value.id %}">{{value.name}}</a></h3>
+							<ul class="qty">
+								<li><p>Price : {{value.price}}</p></li>
+								<li><p>Number : {{value.number}}</p></li>
+							</ul>
+							<div class="delivery">
+								 <p>This ID: {{value.id}}</p>
+								 <span>keys: {{key}}</span>
+								 {% comment %} <span>Delivered in 2-3 bussiness days</span> {% endcomment %}
+								 <div class="clearfix"></div>
+							</div>								
+					   </div>
+					   <div class="clearfix"></div>
+											
+				  	</div>
+			</div>
+			{% endfor %}
+				{% comment %} <script>$(document).ready(function(c) {
+					$('.close1').on('click', function(c){
+						$('.cart-header').fadeOut('slow', function(c){
+							$('.cart-header').remove();
+						});
+						});	  
+					});
+			   </script>
+			<div class="cart-header">
+				<div class="close1"> </div>
+					<div class="cart-sec simpleCart_shelfItem">
+						<div class="cart-item cyc">
+							<img src="images/p4.jpg" class="img-responsive" alt=""/>
+						</div>
+					   <div class="cart-item-info">
+						    <h3><a href="single.html">Rock Light Emergency Lights</a><span>Model No: RL-5511S</span></h3>
+							<ul class="qty">
+								<li><p>Size : 5</p></li>
+								<li><p>Qty : 1</p></li>
+							</ul>
+							<div class="delivery">
+								 <p>Service Charges : Rs.100.00</p>
+								 <span>Delivered in 2-3 bussiness days</span>
+								 <div class="clearfix"></div>
+							</div>								
+					   </div>
+					   <div class="clearfix"></div>
+											
+				  	</div>
+			</div> {% endcomment %}
+			
+		</div>
+	</form>
+		<div class="clearfix"> </div>
+	</div>
+</div>
+<!-- //check out -->
+<!---->
+<div class="subscribe">
+	 <div class="container">
+		 <h3>Newsletter</h3>
+		 <form>
+			 <input type="text" class="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
+			 <input type="submit" value="Subscribe">
+		 </form>
+	 </div>
+</div>
+
+<script>
+function delitem(id){
+	$.ajax({
+            type: 'POST',
+            url: "{% url 'delcartitem' %}",
+            data: {'id':id, 'csrfmiddlewaretoken':'{{csrf_token}}'},
+            success: function(data, textStatus, xhr) {
+        		console.log("hello"+xhr.status);
+				if(xhr.status == 200){
+					alert("You have added this");
+				}
+			},
+			error: function(xhr, textStatus) {
+				console.log("bye"+xhr.status);
+				if(xhr.status == 400){
+					alert("Can't add this because it's not exist");
+				}
+			} 
+			});
+
+}
+</script>
+  {% endblock %}

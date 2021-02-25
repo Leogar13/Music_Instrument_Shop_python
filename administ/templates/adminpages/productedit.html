@@ -1,0 +1,67 @@
+ {% extends 'adminpages/base.html' %}
+{% load static %}
+{% block pagecontent %}
+<div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4">Edit Product</h1>
+              </div>
+              <form class="user" method="POST">
+              {% csrf_token %}
+                <div class="form-group row">
+                  <div class="col-sm-12 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" name="productname" placeholder="Product Name" value="{{product.productName}}">
+                  </div>
+                </div>
+                <div class="form-group col-sm-12 row">
+                <div class="col-sm-4 mb-sm-0">
+                    <select class="form-control" name="category">
+                      {% for item in category %}
+                      {% if item.categoryID == product.categoryID %}
+                        <option value="{{item.categoryID}}" selected>{{item.categoryName}}</option>
+                      {% else %}
+                        <option value="{{item.categoryID}}">{{item.categoryName}}</option>
+                      {% endif %}
+                      
+                      {% endfor %}
+                      
+                    </select>  
+                  </div>
+                <div class="col-sm-4 mb-sm-0">
+                    <select class="form-control" name="manufactory">
+                      {% for item in manufactory %}
+                      {% if item.manufactoryID == product.manufactoryID %}
+                        <option value="{{item.manufactoryID}}" selected>{{item.manufactoryName}}</option>
+                      {% else %}
+                        <option value="{{item.manufactoryID}}">{{item.manufactoryName}}</option>
+                      {% endif %}
+                      
+                      {% endfor %}
+                    </select>  
+                  </div>
+                  <div class="col-sm-4 mb-sm-0">
+                    <select class="form-control" name="supplier">
+                      {% for item in supplier %}
+                      {% if item.supplierID == product.supplierID %}
+                        <option value="{{item.supplierID}}" selected>{{item.supplierName}}</option>
+                      {% else %}
+                        <option value="{{item.supplierID}}">{{item.supplierName}}</option>
+                      {% endif %}
+                      
+                      {% endfor %}
+                    </select>  
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user" name="price" placeholder="Retail Price" value="{{product.retailPrice}}" >
+                </div>
+                <div class="form-group">
+                  <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Description</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" >{{product.productDescription}}</textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-user btn-block">
+                  Create
+                </button>
+              </form>
+ {% endblock %}
+ 
